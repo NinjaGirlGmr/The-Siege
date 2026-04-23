@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -o CMakeFiles/game.dir/src/main.cpp.o -c /Users/hailey/Game_for_AP_class/src/main.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/main.cpp",
+  "output": "CMakeFiles/game.dir/src/main.cpp.o"
+}
+]

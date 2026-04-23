@@ -1,0 +1,56 @@
+[
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -arch arm64 -o CMakeFiles/game.dir/src/main.cpp.o -c /Users/hailey/Game_for_AP_class/src/main.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/main.cpp",
+  "output": "CMakeFiles/game.dir/src/main.cpp.o"
+},
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -arch arm64 -o CMakeFiles/game.dir/src/UpgradeShop.cpp.o -c /Users/hailey/Game_for_AP_class/src/UpgradeShop.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/UpgradeShop.cpp",
+  "output": "CMakeFiles/game.dir/src/UpgradeShop.cpp.o"
+},
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -arch arm64 -o CMakeFiles/game.dir/src/entities/Enemy.cpp.o -c /Users/hailey/Game_for_AP_class/src/entities/Enemy.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/entities/Enemy.cpp",
+  "output": "CMakeFiles/game.dir/src/entities/Enemy.cpp.o"
+},
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -arch arm64 -o CMakeFiles/game.dir/src/entities/Entity.cpp.o -c /Users/hailey/Game_for_AP_class/src/entities/Entity.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/entities/Entity.cpp",
+  "output": "CMakeFiles/game.dir/src/entities/Entity.cpp.o"
+},
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -arch arm64 -o CMakeFiles/game.dir/src/entities/Player.cpp.o -c /Users/hailey/Game_for_AP_class/src/entities/Player.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/entities/Player.cpp",
+  "output": "CMakeFiles/game.dir/src/entities/Player.cpp.o"
+},
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -arch arm64 -o CMakeFiles/game.dir/src/entities/Projectile.cpp.o -c /Users/hailey/Game_for_AP_class/src/entities/Projectile.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/entities/Projectile.cpp",
+  "output": "CMakeFiles/game.dir/src/entities/Projectile.cpp.o"
+},
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -arch arm64 -o CMakeFiles/game.dir/src/UI/DashCooldownIndicator.cpp.o -c /Users/hailey/Game_for_AP_class/src/UI/DashCooldownIndicator.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/UI/DashCooldownIndicator.cpp",
+  "output": "CMakeFiles/game.dir/src/UI/DashCooldownIndicator.cpp.o"
+},
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -arch arm64 -o CMakeFiles/game.dir/src/UI/EnemyDeathEffect.cpp.o -c /Users/hailey/Game_for_AP_class/src/UI/EnemyDeathEffect.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/UI/EnemyDeathEffect.cpp",
+  "output": "CMakeFiles/game.dir/src/UI/EnemyDeathEffect.cpp.o"
+},
+{
+  "directory": "/Users/hailey/Game_for_AP_class/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=c++17 -arch arm64 -o CMakeFiles/game.dir/src/UI/ScreenShakeController.cpp.o -c /Users/hailey/Game_for_AP_class/src/UI/ScreenShakeController.cpp",
+  "file": "/Users/hailey/Game_for_AP_class/src/UI/ScreenShakeController.cpp",
+  "output": "CMakeFiles/game.dir/src/UI/ScreenShakeController.cpp.o"
+}
+]

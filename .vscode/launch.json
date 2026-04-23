@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // Launch the executable produced by CMake so Run/Debug uses the compiled game target, not src/main.cpp.
+            "name": "Launch game",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/game",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "CMake: build"
+        }
+    ]
+}
