@@ -1,5 +1,7 @@
 # Assail — Game for AP Class
 
+Assail- a form of attack.
+
 A vertical shooter roguelite built in C++ with SFML 3.
 
 ## Overview
