@@ -1,6 +1,6 @@
-# Assail — Game for AP Class
+# The Siege — Game for AP Class
 
-Assail- a form of attack.
+The Siege- a form of attack.
 
 A vertical shooter roguelite built in C++ with SFML 3.
 
@@ -80,5 +80,5 @@ Access from the title screen to enable special modes:
 
 | Date | Update |
 |---|---|
-| 2026-04-16 | Added background music (AssailSong1) |
+| 2026-04-16 | Added background music (TheSiegeSong1) |
 | 2026-04-22 | Initial README and DESIGN.md created; project includes enemy behavior profiles, 30+ upgrades, screen shake, dash cooldown UI, and death particle effects |

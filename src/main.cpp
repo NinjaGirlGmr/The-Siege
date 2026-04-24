@@ -33,12 +33,12 @@ namespace
     constexpr float LargeHitPauseDurationSeconds = 0.05f;
     constexpr float DashNearMissPadding = 34.0f;
     constexpr float DashNearMissCooldownRewardSeconds = 0.18f;
-    constexpr std::array<const char *, 2> AssailSong1MusicPaths = {
-        "resources/audio/AssailSong1 - 4-16-26, 3.23 PM.ogg",
-        "../resources/audio/AssailSong1 - 4-16-26, 3.23 PM.ogg",
+    constexpr std::array<const char *, 2> TheSiegeSong1MusicPaths = {
+        "resources/audio/TheSiegeSong1 - 4-16-26, 3.23 PM.ogg",
+        "../resources/audio/TheSiegeSong1 - 4-16-26, 3.23 PM.ogg",
     };
     constexpr const char *NoBackgroundMusicTrackId = "";
-    constexpr const char *AssailSong1TrackId = "ASSAILSONG1";
+    constexpr const char *TheSiegeSong1TrackId = "THESIEGESONG1";
 
     struct FloatingHudRewardText
     {
@@ -1145,7 +1145,7 @@ namespace
         window.draw(background);
 
         sf::Text titleText(font);
-        titleText.setString("ASSAIL");
+        titleText.setString("THE SIEGE");
         titleText.setCharacterSize(64);
         titleText.setFillColor(sf::Color::White);
         centerTextHorizontally(titleText, static_cast<float>(window.getSize().x), 120.0f);
@@ -1380,7 +1380,7 @@ namespace
             {
                 1,
                 "Opening Steps",
-                AssailSong1TrackId,
+                TheSiegeSong1TrackId,
                 1.0f,
                 0.0f,
                 LevelEncounterStyle::MovingFormation,
@@ -1395,7 +1395,7 @@ namespace
             {
                 2,
                 "Block And Answer",
-                AssailSong1TrackId,
+                TheSiegeSong1TrackId,
                 1.0f,
                 0.0f,
                 LevelEncounterStyle::MovingFormation,
@@ -1419,7 +1419,7 @@ namespace
             {
                 3,
                 "Crossfire Lesson",
-                AssailSong1TrackId,
+                TheSiegeSong1TrackId,
                 1.0f,
                 0.0f,
                 LevelEncounterStyle::MovingFormation,
@@ -1446,7 +1446,7 @@ namespace
             {
                 4,
                 "Mixed Trial",
-                AssailSong1TrackId,
+                TheSiegeSong1TrackId,
                 1.0f,
                 0.0f,
                 LevelEncounterStyle::MovingFormation,
@@ -1887,13 +1887,15 @@ namespace
     }
 
     bool openMusicFromCandidatePaths(
-        sf::Music &music,
+        sf::SoundBuffer &buffer,
+        std::optional<sf::Sound> &sound,
         const std::array<const char *, 2> &candidatePaths)
     {
         for (const char *candidatePath : candidatePaths)
         {
-            if (music.openFromFile(candidatePath))
+            if (buffer.loadFromFile(candidatePath))
             {
+                sound.emplace(buffer);
                 return true;
             }
         }
@@ -1903,17 +1905,18 @@ namespace
 
     bool startBackgroundMusicTrackById(
         const std::string &trackId,
-        sf::Music &backgroundMusic)
+        sf::SoundBuffer &musicSoundBuffer,
+        std::optional<sf::Sound> &backgroundMusic)
     {
-        if (trackId == AssailSong1TrackId)
+        if (trackId == TheSiegeSong1TrackId)
         {
-            if (!openMusicFromCandidatePaths(backgroundMusic, AssailSong1MusicPaths))
+            if (!openMusicFromCandidatePaths(musicSoundBuffer, backgroundMusic, TheSiegeSong1MusicPaths))
             {
                 return false;
             }
 
-            backgroundMusic.setLooping(false);
-            backgroundMusic.play();
+            backgroundMusic->setLooping(false);
+            backgroundMusic->play();
             return true;
         }
 
@@ -1922,27 +1925,30 @@ namespace
 
     void syncBackgroundMusicForLevel(
         const LevelConfiguration &levelConfiguration,
-        sf::Music &backgroundMusic,
+        sf::SoundBuffer &musicSoundBuffer,
+        std::optional<sf::Sound> &backgroundMusic,
         std::string &activeBackgroundMusicTrackId)
     {
         const std::string &requestedTrackId = levelConfiguration.backgroundMusicTrackId;
         if (requestedTrackId.empty())
         {
-            if (backgroundMusic.getStatus() != sf::SoundSource::Status::Stopped)
+            if (backgroundMusic.has_value() &&
+                backgroundMusic->getStatus() != sf::SoundSource::Status::Stopped)
             {
-                backgroundMusic.stop();
+                backgroundMusic->stop();
             }
             activeBackgroundMusicTrackId.clear();
             return;
         }
 
         if (activeBackgroundMusicTrackId == requestedTrackId &&
-            backgroundMusic.getStatus() != sf::SoundSource::Status::Stopped)
+            backgroundMusic.has_value() &&
+            backgroundMusic->getStatus() != sf::SoundSource::Status::Stopped)
         {
             return;
         }
 
-        if (!startBackgroundMusicTrackById(requestedTrackId, backgroundMusic))
+        if (!startBackgroundMusicTrackById(requestedTrackId, musicSoundBuffer, backgroundMusic))
         {
             activeBackgroundMusicTrackId.clear();
             return;
@@ -2993,9 +2999,11 @@ namespace
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode({768, 1024}), "Assail");
+    sf::RenderWindow window(sf::VideoMode({768, 1024}), "The Siege");
+    window.setFramerateLimit(60);
     const std::vector<LevelConfiguration> levelConfigurationList = createLevelConfigurationList();
-    sf::Music backgroundMusic;
+    sf::SoundBuffer musicSoundBuffer;
+    std::optional<sf::Sound> backgroundMusic;
     std::string activeBackgroundMusicTrackId;
 
     Player player;
@@ -3049,8 +3057,16 @@ int main()
         appFlowState = AppFlowState::InRun;
         syncBackgroundMusicForLevel(
             levelConfigurationList[currentLevelIndex],
+            musicSoundBuffer,
             backgroundMusic,
             activeBackgroundMusicTrackId);
+    };
+
+    const auto shutdown = [&]()
+    {
+        if (backgroundMusic.has_value())
+            backgroundMusic->stop();
+        window.close();
     };
 
     const auto openShopForCurrentLevel = [&]()
@@ -3099,6 +3115,7 @@ int main()
         levelProgressState = LevelProgressState::ShowingLevelIntro;
         syncBackgroundMusicForLevel(
             levelConfigurationList[currentLevelIndex],
+            musicSoundBuffer,
             backgroundMusic,
             activeBackgroundMusicTrackId);
     };
@@ -3202,7 +3219,7 @@ int main()
         {
             if (event->is<sf::Event::Closed>())
             {
-                window.close();
+                shutdown();
             }
 
             if (appFlowState == AppFlowState::CodeEntry)
@@ -3222,10 +3239,7 @@ int main()
             {
                 if (appFlowState == AppFlowState::TitleScreen)
                 {
-                    if (key->code == sf::Keyboard::Key::Escape)
-                    {
-                        window.close();
-                    }
+
                     if (key->code == sf::Keyboard::Key::Up || key->code == sf::Keyboard::Key::W)
                     {
                         titleMenuSelection = getNextTitleMenuSelection(titleMenuSelection, -1);
@@ -3248,7 +3262,7 @@ int main()
                         }
                         else
                         {
-                            window.close();
+                            shutdown();
                         }
                     }
                     continue;
@@ -3277,7 +3291,7 @@ int main()
 
                 if (key->code == sf::Keyboard::Key::Escape)
                 {
-                    window.close();
+                    shutdown();
                 }
 
                 if (key->code == sf::Keyboard::Key::N && runCodeState.devModeEnabled)
@@ -3299,6 +3313,7 @@ int main()
                     levelProgressState = LevelProgressState::ShowingLevelIntro;
                     syncBackgroundMusicForLevel(
                         levelConfigurationList[currentLevelIndex],
+                        musicSoundBuffer,
                         backgroundMusic,
                         activeBackgroundMusicTrackId);
                     continue;
@@ -3377,6 +3392,7 @@ int main()
                     }
                     syncBackgroundMusicForLevel(
                         levelConfigurationList[currentLevelIndex],
+                        musicSoundBuffer,
                         backgroundMusic,
                         activeBackgroundMusicTrackId);
                     continue;
@@ -3476,7 +3492,7 @@ int main()
                         }
                         else if (containsPoint(getTitleButtonBounds(TitleMenuSelection::Exit), mousePosition))
                         {
-                            window.close();
+                            shutdown();
                         }
                         continue;
                     }
@@ -3551,14 +3567,15 @@ int main()
                             enemyProjectiles,
                             activeEnemyDeathEffects,
                             activeFloatingRewardTexts,
-                        screenShakeController,
-                        enemyFormationDirection,
-                        levelProgressState);
-                    UpgradeShop::applyPlayerUpgradeStats(player, runProgress.upgrades);
-                    UpgradeShop::resetLevelStats(runProgress.currentLevelStats);
-                    levelProgressState = LevelProgressState::ShowingLevelIntro;
-                    syncBackgroundMusicForLevel(
+                            screenShakeController,
+                            enemyFormationDirection,
+                            levelProgressState);
+                        UpgradeShop::applyPlayerUpgradeStats(player, runProgress.upgrades);
+                        UpgradeShop::resetLevelStats(runProgress.currentLevelStats);
+                        levelProgressState = LevelProgressState::ShowingLevelIntro;
+                        syncBackgroundMusicForLevel(
                             levelConfigurationList[currentLevelIndex],
+                            musicSoundBuffer,
                             backgroundMusic,
                             activeBackgroundMusicTrackId);
                         continue;
@@ -3572,6 +3589,9 @@ int main()
                 }
             }
         }
+
+        if (!window.isOpen())
+            break;
 
         const float deltaTime = deltaClock.restart().asSeconds();
         elapsedSceneTimeSeconds += deltaTime;
@@ -3870,5 +3890,7 @@ int main()
         window.display();
     }
 
+    if (backgroundMusic.has_value())
+        backgroundMusic->stop();
     return 0;
 }

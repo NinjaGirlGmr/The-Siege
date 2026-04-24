@@ -1,4 +1,4 @@
-# Design Document — Assail
+# Design Document — The Siege
 
 *A vertical shooter roguelite built in C++ with SFML 3*
 *Created for AP Computer Science Principles — April 2026*
@@ -7,7 +7,7 @@
 
 ## Overview
 
-Assail is a lane-based shooter where players fight through waves of enemies, earn essence, and spend it in an upgrade shop between levels. I built it over roughly two weeks as my AP CSP exam project. Beyond fulfilling the exam requirements, it became a genuine creative project — I wrote the code, created the art, and composed the music.
+The Siege is a lane-based shooter where players fight through waves of enemies, earn essence, and spend it in an upgrade shop between levels. I built it over roughly two weeks as my AP CSP exam project. Beyond fulfilling the exam requirements, it became a genuine creative project — I wrote the code, created the art, and composed the music.
 
 ---
 
@@ -104,7 +104,7 @@ I am not a pixel artist. My background is in drawing and 3D modeling. So rather 
 
 For each character, I built a low-poly 3D model in Blender, textured and rigged it, and animated it. Then I used Blender's render pipeline to output each frame at 64×64 pixels with a transparent background. By skipping every few frames from the 3D animation, I got a sprite sheet that reads as pixel art at game resolution. The whole pipeline — modeling, rigging, animating, and rendering the sprites — took about three hours per character on the first attempt.
 
-The music I wrote myself. I have played guitar for almost a decade but have no formal training in music theory. Writing and producing game audio was new to me. The current track (`AssailSong1`) is the second piece of music I've ever written. I'd like to write more before the project is complete.
+The music I wrote myself. I have played guitar for almost a decade but have no formal training in music theory. Writing and producing game audio was new to me. The current track (`TheSiegeSong1`) is the second piece of music I've ever written. I'd like to write more before the project is complete.
 
 ---
 
